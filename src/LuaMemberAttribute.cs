@@ -53,13 +53,15 @@ namespace NLua
         {
             return type.GetMembers(bindingFlags).Where(m =>
             {
-                if (m.GetCustomAttribute<LuaHideAttribute>() != null)
-                    return false;
-
-                if (m.GetCustomAttribute<LuaMemberAttribute>() != null)
+                foreach (Attribute attr in m.GetCustomAttributes())
                 {
-                    var attr = m.GetCustomAttribute<LuaMemberAttribute>();
-                    return attr.Name == memberName;
+                    switch (attr)
+                    {
+                        case LuaHideAttribute _:
+                            return false;
+                        case LuaMemberAttribute memberAttr:
+                            return memberAttr.Name == memberName;
+                    }
                 }
 
                 return m.Name == memberName;
