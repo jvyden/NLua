@@ -53,7 +53,7 @@ namespace NLua
         {
             return type.GetMembers(bindingFlags).Where(m =>
             {
-                foreach (Attribute attr in m.GetCustomAttributes())
+                foreach (Attribute attr in m.GetCustomAttributes(false))
                 {
                     switch (attr)
                     {
